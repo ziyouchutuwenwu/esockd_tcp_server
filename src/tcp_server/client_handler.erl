@@ -11,11 +11,8 @@ init(Transport, Sock, ConfigBehaviorImpl) ->
     {ok, NewSock} ->
       {ok, {ClientIp, ClientPort}} = inet:peername(Sock),
       ClientIpStr = inet:ntoa(ClientIp),
-
-      % 连接回调
       SocketHandlerModule = ConfigBehaviorImpl:get_socket_handler_module(),
       SocketHandlerModule:on_client_connected(Transport, Sock, ClientIpStr, ClientPort),
-
       recv_loop(Transport, NewSock, ConfigBehaviorImpl);
     Error -> Error
   end.
